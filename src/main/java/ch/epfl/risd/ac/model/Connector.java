@@ -12,40 +12,35 @@ import org.apache.commons.collections4.Transformer;
 
 import ch.epfl.risd.ac.datastructures.Node;
 import ch.epfl.risd.ac.datastructures.Tuple;
-import ch.epfl.risd.ac.grammar.connectorLexer;
-import ch.epfl.risd.ac.grammar.connectorParser;
+import ch.epfl.risd.ac.grammar.ConnectorLexer;
+import ch.epfl.risd.ac.grammar.ConnectorParser;
 import ch.epfl.risd.ac.helpers.Helpers;
 import ch.epfl.risd.ac.helpers.PortChecker;
 
 /**
- * This models one connector in the sense of the Algebra of Connectors, i.e. one
- * connector is set of communicating ports belonging to different components
- * that may be involved in some interactions.
- *
+ * This class models one connector in the sense of the Algebra of Connectors,
+ * i.e. one connector is set of communicating ports belonging to different
+ * components that may be involved in some interactions. Depending on the types
+ * of the ports (synchrons or triggers), the connector can produce different
+ * forms of interaction. For this reason, one connector is represented as a tree
+ * structure
  */
 
 public class Connector {
 
-	// <isTrigger, Interaction>; Interaction != null iff it is a leaf
-	public ConnectorNode root;
+	/****************************************************************************/
+	/* VARIABLES */
+	/***************************************************************************/
 
-	public Set<String> ports;
+	/* The root of the connector, i.e. the initial form of the connector */
+	protected ConnectorNode root;
 
-	public Connector() {
-		ports = new HashSet<String>();
-		root = new ConnectorNode(false, null);
-	}
+	/* The set of ports included in the connector */
+	protected Set<String> ports;
 
-	public Connector(Set<String> ports, ConnectorNode cn) {
-		if (ports != null)
-			this.ports = ports;
-		else
-			this.ports = new HashSet<String>();
-		this.root = cn;
-		checkPorts();
-		System.err.println("Connector");
-		System.err.println(print());
-	}
+	/****************************************************************************/
+	/* PRIVATE(UTILITY) METHODS */
+	/****************************************************************************/
 
 	private void checkPorts() {
 		Transformer tr = new Transformer() {
@@ -59,21 +54,13 @@ public class Connector {
 		PortChecker.checkPorts(root, tr, ports);
 	}
 
-	public Connector(CausalTree ct) {
-		if (ct != null) {
-			this.ports = ct.ports;
-			root = fromCausalTree(ct);
-			checkPorts();
-		}
-		System.err.println("Connector");
-		System.err.println(print());
-
-	}
-
-	/**************************************************************************************
-	 * Print
-	 ***************************************************************************************/
-
+	/**
+	 * Helper method for getting a String representation of the Connector
+	 * 
+	 * @param node
+	 *            - the root of the Connector
+	 * @return the String representation of the Connector
+	 */
 	private String printTree(Node<Tuple<Boolean, List<String>>> node) {
 		if (node == null)
 			return "";
@@ -98,22 +85,14 @@ public class Connector {
 			inner.append("'");
 		return inner.toString();
 	}
-
-	public String print() {
-		if (this.root == null)
-			return "";
-		return printTree(root);
-	}
-
-	/**************************************************************************************
-	 * Generate from Causal Tree
-	 ***************************************************************************************/
-
+	
 	private void fromCausalTreeInner(Node<List<String>> node, ConnectorNode parentNode) {
+
 		if (node.getChildren().size() == 0) {
 			new ConnectorNode(false, node.data, parentNode);
 			return;
 		}
+
 		new ConnectorNode(true, node.data, parentNode);
 		if (node.getChildren().size() == 1 && node.getChildren().get(0).getChildren().size() == 0) {
 			new ConnectorNode(false, node.getChildren().get(0).data, parentNode);
@@ -125,6 +104,72 @@ public class Connector {
 		}
 	}
 
+	/****************************************************************************/
+	/* PUBLIC METHODS */
+	/***************************************************************************/
+
+	/**
+	 * Creating an empty Connector
+	 */
+	public Connector() {
+		ports = new HashSet<String>();
+		root = new ConnectorNode(false, null);
+	}
+
+	/**
+	 * Creating a new Connector with a set of ports included in the Connector
+	 * and the root of the Connector.
+	 * 
+	 * @param ports
+	 *            - the set of ports included in the Connector
+	 * @param root
+	 *            - the root of the Connector
+	 */
+	public Connector(Set<String> ports, ConnectorNode root) {
+		if (ports != null) {
+			this.ports = ports;
+		} else {
+			this.ports = new HashSet<String>();
+		}
+
+		this.root = root;
+		checkPorts();
+
+		System.out.println("The following connector was created: " + print());
+	}
+
+	/**
+	 * 
+	 * Creating a new Connector given the Causal Tree of interactions
+	 * 
+	 * @param causalTree
+	 *            - the Causal Tree of interactions
+	 */
+	public Connector(CausalTree causalTree) {
+		if (causalTree != null) {
+			this.ports = causalTree.ports;
+			root = fromCausalTree(causalTree);
+			checkPorts();
+		}
+
+		System.out.println("The following connector was created: " + print());
+	}
+
+	public String print() {
+		if (this.root == null)
+			return "";
+
+		return printTree(root);
+	}
+
+	/**
+	 * Method for creating the root of the Connector, i.e. a Connector Node,
+	 * when given a Causal Tree of interactions
+	 * 
+	 * @param causalTree
+	 *            - the Causal Tree of Interactions
+	 * @return
+	 */
 	public ConnectorNode fromCausalTree(CausalTree causalTree) {
 		ConnectorNode result = new ConnectorNode(false, null, null);
 		if (causalTree.ctRoot.getChildren().size() == 1)
@@ -143,47 +188,28 @@ public class Connector {
 		return result;
 	}
 
-	/**************************************************************************************
-	 * From String
-	 ***************************************************************************************/
-
+	/**
+	 * Method for creating a Connector Node given a String
+	 * 
+	 * @param input
+	 *            - the given String
+	 * @return the created Connector Node
+	 */
 	public static ConnectorNode FromString(String input) {
-		connectorLexer lexer = new connectorLexer(new ANTLRInputStream(input));
+		ConnectorLexer lexer = new ConnectorLexer(new ANTLRInputStream(input));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		connectorParser p = new connectorParser(tokens);
+		ConnectorParser p = new ConnectorParser(tokens);
 		p.setBuildParseTree(true);
-		// p.addParseListener(new boolListener());
 		return p.top().c;
 	}
 
-	/**************************************************************************************
-	 * Generators
-	 ***************************************************************************************/
-
+	/**
+	 * Method for creating Causal Tree from the current Connector
+	 * 
+	 * @return the created Causal Tree
+	 */
 	public CausalTree toCausalTree() {
 		return new CausalTree(this);
-	}
-
-	public List<String> getInteractions(Node<Tuple<Boolean, List<String>>> node) {
-
-		/* The resulting list */
-		List<String> result = new LinkedList<String>();
-
-		if (node.data.y != null) {
-			/* Add all interactions */
-			result.addAll(node.data.y);
-		} else {
-			/* Get the children of the node */
-			ArrayList<Node<Tuple<Boolean, List<String>>>> children = node.getChildren();
-
-			/* Iterate over them */
-			for (int i = 0; i < children.size(); i++) {
-				/* Add the results in the resulting list */
-				result.addAll(getInteractions(children.get(i)));
-			}
-		}
-
-		return result;
 	}
 
 	public static void main(String[] args) {

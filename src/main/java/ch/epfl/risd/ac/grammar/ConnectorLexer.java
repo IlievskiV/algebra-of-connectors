@@ -17,7 +17,8 @@ import org.antlr.v4.runtime.dfa.DFA;
 import ch.epfl.risd.ac.model.ConnectorNode;
 
 @SuppressWarnings({ "all", "warnings", "unchecked", "unused", "cast" })
-public class connectorLexer extends Lexer {
+public class ConnectorLexer extends Lexer {
+
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache = new PredictionContextCache();
 	public static final int LPAREN = 1, RPAREN = 2, ID = 3, TRIGGER = 4, WS = 5;
@@ -53,7 +54,7 @@ public class connectorLexer extends Lexer {
 		return n;
 	}
 
-	public connectorLexer(CharStream input) {
+	public ConnectorLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this, _ATN, _decisionToDFA, _sharedContextCache);
 	}

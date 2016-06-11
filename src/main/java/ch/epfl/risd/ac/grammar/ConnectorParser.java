@@ -22,7 +22,8 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import ch.epfl.risd.ac.model.ConnectorNode;
 
 @SuppressWarnings({ "all", "warnings", "unchecked", "unused", "cast" })
-public class connectorParser extends Parser {
+public class ConnectorParser extends Parser {
+	
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache = new PredictionContextCache();
 	public static final int LPAREN = 1, RPAREN = 2, ID = 3, TRIGGER = 4, WS = 5;
@@ -77,7 +78,7 @@ public class connectorParser extends Parser {
 		return n;
 	}
 
-	public connectorParser(TokenStream input) {
+	public ConnectorParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this, _ATN, _decisionToDFA, _sharedContextCache);
 	}
@@ -86,11 +87,11 @@ public class connectorParser extends Parser {
 		public Token var;
 
 		public TerminalNode ID() {
-			return getToken(connectorParser.ID, 0);
+			return getToken(ConnectorParser.ID, 0);
 		}
 
 		public TerminalNode TRIGGER() {
-			return getToken(connectorParser.TRIGGER, 0);
+			return getToken(ConnectorParser.TRIGGER, 0);
 		}
 
 		public IdentContext(ParserRuleContext parent, int invokingState) {
@@ -104,14 +105,14 @@ public class connectorParser extends Parser {
 
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if (listener instanceof connectorListener)
-				((connectorListener) listener).enterIdent(this);
+			if (listener instanceof ConnectorListener)
+				((ConnectorListener) listener).enterIdent(this);
 		}
 
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if (listener instanceof connectorListener)
-				((connectorListener) listener).exitIdent(this);
+			if (listener instanceof ConnectorListener)
+				((ConnectorListener) listener).exitIdent(this);
 		}
 	}
 
@@ -171,14 +172,14 @@ public class connectorParser extends Parser {
 
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if (listener instanceof connectorListener)
-				((connectorListener) listener).enterIdentlist(this);
+			if (listener instanceof ConnectorListener)
+				((ConnectorListener) listener).enterIdentlist(this);
 		}
 
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if (listener instanceof connectorListener)
-				((connectorListener) listener).exitIdentlist(this);
+			if (listener instanceof ConnectorListener)
+				((ConnectorListener) listener).exitIdentlist(this);
 		}
 	}
 
@@ -229,15 +230,15 @@ public class connectorParser extends Parser {
 		public FormulaContext formula;
 
 		public TerminalNode RPAREN() {
-			return getToken(connectorParser.RPAREN, 0);
+			return getToken(ConnectorParser.RPAREN, 0);
 		}
 
 		public TerminalNode LPAREN() {
-			return getToken(connectorParser.LPAREN, 0);
+			return getToken(ConnectorParser.LPAREN, 0);
 		}
 
 		public TerminalNode TRIGGER() {
-			return getToken(connectorParser.TRIGGER, 0);
+			return getToken(ConnectorParser.TRIGGER, 0);
 		}
 
 		public FormulaContext formula() {
@@ -255,14 +256,14 @@ public class connectorParser extends Parser {
 
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if (listener instanceof connectorListener)
-				((connectorListener) listener).enterFormulainner(this);
+			if (listener instanceof ConnectorListener)
+				((ConnectorListener) listener).enterFormulainner(this);
 		}
 
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if (listener instanceof connectorListener)
-				((connectorListener) listener).exitFormulainner(this);
+			if (listener instanceof ConnectorListener)
+				((ConnectorListener) listener).exitFormulainner(this);
 		}
 	}
 
@@ -348,14 +349,14 @@ public class connectorParser extends Parser {
 
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if (listener instanceof connectorListener)
-				((connectorListener) listener).enterFormula(this);
+			if (listener instanceof ConnectorListener)
+				((ConnectorListener) listener).enterFormula(this);
 		}
 
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if (listener instanceof connectorListener)
-				((connectorListener) listener).exitFormula(this);
+			if (listener instanceof ConnectorListener)
+				((ConnectorListener) listener).exitFormula(this);
 		}
 	}
 
@@ -424,14 +425,14 @@ public class connectorParser extends Parser {
 
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if (listener instanceof connectorListener)
-				((connectorListener) listener).enterTop(this);
+			if (listener instanceof ConnectorListener)
+				((ConnectorListener) listener).enterTop(this);
 		}
 
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if (listener instanceof connectorListener)
-				((connectorListener) listener).exitTop(this);
+			if (listener instanceof ConnectorListener)
+				((ConnectorListener) listener).exitTop(this);
 		}
 	}
 
