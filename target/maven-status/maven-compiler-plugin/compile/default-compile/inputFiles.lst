@@ -1,0 +1,11 @@
+/home/vladimir/workspace/algebra-of-connectors/src/main/java/ch/epfl/risd/ac/helpers/Helpers.java
+/home/vladimir/workspace/algebra-of-connectors/src/main/java/ch/epfl/risd/ac/grammar/connectorLexer.java
+/home/vladimir/workspace/algebra-of-connectors/src/main/java/ch/epfl/risd/ac/datastructures/Tuple.java
+/home/vladimir/workspace/algebra-of-connectors/src/main/java/ch/epfl/risd/ac/helpers/CollectionsHelpers.java
+/home/vladimir/workspace/algebra-of-connectors/src/main/java/ch/epfl/risd/ac/helpers/PortChecker.java
+/home/vladimir/workspace/algebra-of-connectors/src/main/java/ch/epfl/risd/ac/model/Connector.java
+/home/vladimir/workspace/algebra-of-connectors/src/main/java/ch/epfl/risd/ac/grammar/connectorListener.java
+/home/vladimir/workspace/algebra-of-connectors/src/main/java/ch/epfl/risd/ac/model/CausalTree.java
+/home/vladimir/workspace/algebra-of-connectors/src/main/java/ch/epfl/risd/ac/model/ConnectorNode.java
+/home/vladimir/workspace/algebra-of-connectors/src/main/java/ch/epfl/risd/ac/grammar/connectorParser.java
+/home/vladimir/workspace/algebra-of-connectors/src/main/java/ch/epfl/risd/ac/datastructures/Node.java
